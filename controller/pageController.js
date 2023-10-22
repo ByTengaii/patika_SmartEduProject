@@ -8,3 +8,15 @@ exports.getAbout = (req, res) => {
         page_name : 'about'
     });
 }
+
+exports.getRegister = (req, res) => {
+    res.status(200).render('register', {
+        page_name : 'register'
+    });
+}
+
+exports.getLogin = (req, res) => {
+    res.status(200).render('login', {
+        page_name : 'login'
+    });
+}

@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const pageRooter = require('./routes/pageRoutes');
 const courseRooter = require('./routes/courseRoutes.js');
 const categoryRooter = require('./routes/categoryRoutes');
+const authRooter = require('./routes/authRoutes');
 const port = 3000;
 
 //* Template Engine
@@ -28,6 +29,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
 app.use('/', pageRooter);
 app.use('/courses', courseRooter);
 app.use('/categories', categoryRooter);
+app.use('/users',authRooter);
 
 app.listen(port, () => {
     console.log(`The application start at ${port}`);
