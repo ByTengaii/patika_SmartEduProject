@@ -20,17 +20,14 @@ exports.createUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
     try{
         const {email, password} = req.body;
-        await User.findOne({ email: email },(err, user) => {
-            if(user)
-            {
-                bcrypt.compare(password, user.password, (err, result) => {
-                    if (result)
-                    {
-                        res.status(201).send("Login success");
-                    }
-                })
-            }
-        });
+        const user = await User.findOne({ email: email });
+            if (!user)
+                res.status(400).send('Invalid User');
+        const same = await bcrypt.compare(password, user.password);
+        if (same)
+            res.status(200).send("login successfull"); 
+        else
+            res.status(400).send("Invalid password!");
     }
     catch(error){
         const {email, password} = req.body;
