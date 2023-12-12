@@ -1,13 +1,12 @@
 const User = require('./../models/User');
+const Category = require('./../models/Category');
+
 const bcrypt = require('bcrypt');
 
 exports.createUser = async (req, res) => {
     try{
         const user = await User.create(req.body);
-        res.status(201).json({
-            message: 'Success',
-            user
-        });
+        res.status(201).redirect("/login");
     }
     catch(error){
         res.status(400).json({
@@ -55,10 +54,11 @@ exports.logoutUser = (req, res) => {
 };
 
 exports.getUserDashboard = async (req, res) => {
-    console.log("Selam aq");
     const user = await User.findOne({_id:req.session.userID});
+    const categories = await Category.find();
     res.status(200).render('dashboard',{
         page_name: 'dashboard',
-        user
+        user,
+        categories
     });
 };
