@@ -17,6 +17,10 @@ const courseSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category'
     },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
     date: {
         type: Date,
         default: Date.now
@@ -24,7 +28,7 @@ const courseSchema = new Schema({
     slug: {
         type:String ,
         unique: true
-    }
+    },
 });
 
 courseSchema.pre('validate', function(next){
