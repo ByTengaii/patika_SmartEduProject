@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const { type } = require('os');
 const {Schema} = mongoose;
 
 const userSchema = new Schema({
@@ -20,7 +21,11 @@ const userSchema = new Schema({
         type: String,
         enum:["student", "teacher", "admin"],
         default: "student"
-    }
+    },
+    courses:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"Course"
+    }]
 });
 
 userSchema.pre("save",function(next){

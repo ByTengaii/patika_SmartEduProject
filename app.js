@@ -1,10 +1,11 @@
 //* FrameWorks
 const express = require('express');
-const session = require("express-session");
+const session = require('express-session');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo');
 const ejs = require('ejs');
 const bodyParser = require('body-parser');
+var flash = require('connect-flash');
 const app = express();
 
 //* ROUTERS
@@ -33,22 +34,31 @@ global.userID = null;
 app.use(express.static('public'));
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-app.use(session({
-    secret: 'keyboard_cat',
-    resave: false,
-    saveUninitialized: true,
-    store: MongoStore.create({ mongoUrl: 'mongodb://127.0.0.1:27017/smart_eduProject'})
-}));
+app.use(
+    session({
+        secret: 'keyboard_cat',
+        resave: false,
+        saveUninitialized: true,
+        store: MongoStore.create({
+            mongoUrl: 'mongodb://127.0.0.1:27017/smart_eduProject',
+        }),
+    })
+);
+app.use(flash());
+app.use((req, res, next) => {
+    res.locals.flashMessages = req.flash();
+    next();
+});
 
 //* ROUTES
-app.use("*",(req, res, next) => {
+app.use('*', (req, res, next) => {
     userID = req.session.userID;
     next();
-})
+});
 app.use('/', pageRooter);
 app.use('/courses', courseRooter);
 app.use('/categories', categoryRooter);
-app.use('/users',authRooter);
+app.use('/users', authRooter);
 
 app.listen(port, () => {
     console.log(`The application start at ${port}`);

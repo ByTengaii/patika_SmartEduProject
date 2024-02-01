@@ -1,87 +1,120 @@
 <%- include('partials/_header') -%>
 
-<body class="host_version"> 
+	<body class="host_version">
 
 		<!-- Start Navbar -->
 		<%- include('partials/_navbar') -%>
-		<!-- End Navbar -->
-	
-	<div class="all-title-box">
-		<div class="container text-center">
-			<h1><%= course.name %><span class="m_1">Lorem Ipsum dolroin gravida nibh vel velit.</span></h1>
-		</div>
-	</div>
-	
-    <div id="overviews" class="section wb">
-        <div class="container">
-            <div class="row"> 
-                <div class="col-lg-9 blog-post-single">
-                    <div class="blog-item">
-						<div class="image-blog">
-							<img src="/images/blog_single.jpg" alt="" class="img-fluid">
-						</div>
-						<div class="post-content">
-							<div class="post-date">
-								<span class="day">30</span>
-								<span class="month">Nov</span>
-							</div>
-							<div class="meta-info-blog">
-								<span><i class="fa fa-calendar"></i> <a href="#"><%= course.date.toLocaleDateString() %></a> </span>
-							</div>
-							<div class="blog-title">
-								<h2><a href="#" title=""><%= course.name %></a></h2>
-							</div>
-							<div class="blog-desc">
-								<p><%= course.description %> </p>
-								<blockquote class="default">
-									Nulla nunc dui, tristique in semper vel, congue sed ligula. Nam dolor ligula, faucibus id sodales in, auctor fringilla libero. Pellentesque pellentesque eget tempor tellus. Fusce lacinia tempor malesuada. Ut lacus sapien, placerat a ornare nec, elementum sit amet felis. Maecenas pretium lorem hendrerit eros sagittis fermentum.
-								</blockquote>
-								<p>Phasellus tristique commodo libero, eget dignissim turpis dignissim quis. Morbi sit amet laoreet nibh, gravida scelerisque felis. Phasellus ultrices pellentesque ligula et viverra. Integer elementum, risus et tempor ultricies, libero turpis pellentesque massa, at facilisis erat nunc hendrerit erat. Praesent rhoncus, augue nec condimentum porta, magna dui volutpat augue, vitae blandit magna quam in massa. Fusce a rhoncus diam. Proin nec lacinia nibh. Praesent sed nisi sed purus dictum laoreet.</p>
-								<p>Duis at tortor augue. Ut et justo consequat, facilisis lectus facilisis, tincidunt massa. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nam vel vestibulum urna. Fusce sed magna posuere, vehicula odio vitae, tempor arcu. Pellentesque eget felis sed eros maximus elementum ultrices a elit. Sed ac sodales enim.</p>
-							</div>							
-						</div>
-					</div>
-					
-					<div class="blog-author">
-						<div class="author-bio">
-							<h3 class="author_name"><a href="#"><%= course.user.name %></a></h3>
-						</div>
-					</div>
-					
-                </div><!-- end col -->
-				<div class="col-lg-3 col-12 right-single">
-					<div class="widget-search">
-						<div class="site-search-area">
-							<form method="get" id="site-searchform" action="#">
-								<div>
-									<input class="input-text form-control" name="search-k" id="search-k" placeholder="Search keywords..." type="text">
-									<input id="searchsubmit" value="Search" type="submit">
-								</div>
-							</form>
-						</div>
-					</div>
-					<div class="widget-categories">
-						<h3 class="widget-title">Categories</h3>
-						<ul>
-							<li><a href="#">Political Science</a></li>
-							<li><a href="#">Business Leaders Guide</a></li>
-							<li><a href="#">Become a Product Manage</a></li>
-							<li><a href="#">Language Education</a></li>
-							<li><a href="#">Micro Biology</a></li>
-							<li><a href="#">Social Media Management</a></li>
-						</ul>
-					</div>
+			<!-- End Navbar -->
+
+			<div class="all-title-box">
+				<div class="container text-center">
+					<h1>
+						<%= course.name %><span class="m_1">Lorem Ipsum dolroin gravida nibh vel velit.</span>
+					</h1>
 				</div>
-            </div><!-- end row -->
-        </div><!-- end container -->
-    </div><!-- end section -->
+			</div>
 
-	<%- include('partials/_footer') -%>
+			<div id="overviews" class="section wb">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-9 blog-post-single">
+							<div class="blog-item">
+								<div class="image-blog">
+									<img src="/images/blog_single.jpg" alt="" class="img-fluid">
+								</div>
+								<div class="post-content">
+									<% if (user.role=="student" && !(user.courses.includes(course._id)) ) { %>
+										<div class="post-date">
+											<form action="/courses/course/enroll" method="post">
+												<input type="hidden" name="course_id" value="<%= course._id %>">
+												<button
+													class="btn btn-lg btn-warning text-white"><span>ENROLL</span></button>
+											</form>
+										</div>
+										<% } %>
+											<div class="meta-info-blog">
+												<span><i class="fa fa-calendar"></i> <a href="#">
+														<%= course.date.toLocaleDateString() %>
+													</a> </span>
+											</div>
+											<div class="blog-title">
+												<h2><a href="#" title="">
+														<%= course.name %>
+													</a></h2>
+											</div>
+											<div class="blog-desc">
+												<p>
+													<%= course.description %>
+												</p>
+												<blockquote class="default">
+													Nulla nunc dui, tristique in semper vel, congue sed ligula. Nam
+													dolor ligula, faucibus id sodales in, auctor fringilla libero.
+													Pellentesque pellentesque eget tempor tellus. Fusce lacinia tempor
+													malesuada. Ut lacus sapien, placerat a ornare nec, elementum sit
+													amet felis. Maecenas pretium lorem hendrerit eros sagittis
+													fermentum.
+												</blockquote>
+												<p>Phasellus tristique commodo libero, eget dignissim turpis dignissim
+													quis. Morbi sit amet laoreet nibh, gravida scelerisque felis.
+													Phasellus ultrices pellentesque ligula et viverra. Integer
+													elementum, risus et tempor ultricies, libero turpis pellentesque
+													massa, at facilisis erat nunc hendrerit erat. Praesent rhoncus,
+													augue nec condimentum porta, magna dui volutpat augue, vitae blandit
+													magna quam in massa. Fusce a rhoncus diam. Proin nec lacinia nibh.
+													Praesent sed nisi sed purus dictum laoreet.</p>
+												<p>Duis at tortor augue. Ut et justo consequat, facilisis lectus
+													facilisis, tincidunt massa. Pellentesque habitant morbi tristique
+													senectus et netus et malesuada fames ac turpis egestas. Nam vel
+													vestibulum urna. Fusce sed magna posuere, vehicula odio vitae,
+													tempor arcu. Pellentesque eget felis sed eros maximus elementum
+													ultrices a elit. Sed ac sodales enim.</p>
+											</div>
+								</div>
+							</div>
 
-    <!-- ALL JS FILES -->
-    <script src="/js/all.js"></script>
-    <!-- ALL PLUGINS -->
-    <script src="/js/custom.js"></script>
+							<div class="blog-author">
+								<div class="author-bio">
+									<h3 class="author_name"><a href="#">
+											<%= course.user.name %>
+										</a></h3>
+								</div>
+							</div>
 
-</body>
-</html>
+						</div><!-- end col -->
+						<div class="col-lg-3 col-12 right-single">
+							<div class="widget-search">
+								<div class="site-search-area">
+									<form method="GET" id="site-searchform" action="/courses">
+										<div>
+											<input class="input-text form-control" name="search" id="search-k"
+												placeholder="Search..." type="text">
+											<button id="searchsubmit" value="Search" type="submit"></button>
+										</div>
+									</form>
+								</div>
+							</div>
+							<div class="widget-categories">
+								<h3 class="widget-title">Categories</h3>
+								<ul>
+									<% for (let i=0; i < categories.length; i ++) { %>
+										<li><a href="/courses?categories=<%= categories[i].slug %>">
+												<%= categories[i].name %> >
+											</a></li>
+										<% } %>
+								</ul>
+							</div>
+						</div>
+					</div><!-- end row -->
+				</div><!-- end container -->
+			</div><!-- end section -->
+
+			<%- include('partials/_footer') -%>
+
+				<!-- ALL JS FILES -->
+				<script src="/js/all.js"></script>
+				<!-- ALL PLUGINS -->
+				<script src="/js/custom.js"></script>
+
+	</body>
+
+	</html>
